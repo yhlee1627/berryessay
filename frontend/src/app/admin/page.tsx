@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import AdminUsersPage from './users/AdminUsersPage';
 import AdminEssayListPage from './list/AdminEssayListPage';
 import AdminUserEssaysFlowPage from './user-essays/page';
@@ -11,7 +11,7 @@ const TABS = [
   { label: '회원별 에세이 관리', value: 'user-essays' },
 ];
 
-export default function AdminDashboardPage() {
+function AdminDashboardContent() {
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') || 'essays';
   const [tab, setTab] = useState(initialTab);
@@ -58,5 +58,17 @@ export default function AdminDashboardPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdminDashboardPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen w-full bg-gradient-to-br from-[#f5f8fa] to-[#e9edfb] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#a78bfa]"></div>
+      </div>
+    }>
+      <AdminDashboardContent />
+    </Suspense>
   );
 } 
