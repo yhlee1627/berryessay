@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import type Editor from '@toast-ui/editor';
+import Editor from '@toast-ui/editor';
+type EditorInstance = InstanceType<typeof Editor>;
 import { getAdminEssayTopic, setAdminEssayTopic, EssayTopic, logout } from '@/lib/api';
 import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
@@ -21,7 +22,7 @@ export default function AdminEssayTopicsPage() {
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode') || 'new'; // 'new' 또는 'edit'
   const topicId = searchParams.get('id');
-  const editorRef = useRef<Editor | null>(null);
+const editorRef = useRef<EditorInstance | null>(null);
 
   const fetchCurrentTopic = useCallback(async () => {
     setLoading(true);
