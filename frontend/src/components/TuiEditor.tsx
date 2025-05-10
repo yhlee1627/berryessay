@@ -10,69 +10,69 @@ interface TuiEditorProps {
   addImageBlobHook?: (blob: Blob, callback: (url: string, alt: string, attr?: Record<string, unknown>) => void) => void;
 }
 
-const TuiEditor = forwardRef<Editor | null, TuiEditorProps>(
-  ({ value = '', height = '500px', previewStyle = 'vertical', onChange, addImageBlobHook }, ref) => {
-    const editorRef = useRef<Editor | null>(null);
-    const divRef = useRef<HTMLDivElement>(null);
-    const isFirst = useRef(true);
+const TuiEditor = forwardRef((props: TuiEditorProps, ref) => {
+  const editorRef = useRef<any>(null);
+  const divRef = useRef<HTMLDivElement>(null);
+  const isFirst = useRef(true);
 
-    useImperativeHandle(ref, () => editorRef.current);
+  useImperativeHandle(ref, () => ({
+    getInstance: () => editorRef.current
+  }));
 
-    useEffect(() => {
-      if (divRef.current && !editorRef.current) {
-        editorRef.current = new Editor({
-          el: divRef.current,
-          height,
-          initialEditType: 'wysiwyg',
-          previewStyle,
-          initialValue: value,
-          hideModeSwitch: true,
-          events: {
-            change: () => {
-              if (onChange && editorRef.current && typeof editorRef.current.getHTML === 'function') {
-                onChange(editorRef.current.getHTML());
-              }
-            },
+  useEffect(() => {
+    if (divRef.current && !editorRef.current) {
+      editorRef.current = new Editor({
+        el: divRef.current,
+        height: props.height,
+        initialEditType: 'wysiwyg',
+        previewStyle: props.previewStyle,
+        initialValue: props.value,
+        hideModeSwitch: true,
+        events: {
+          change: () => {
+            if (props.onChange && editorRef.current && typeof editorRef.current.getHTML === 'function') {
+              props.onChange(editorRef.current.getHTML());
+            }
           },
-          hooks: addImageBlobHook
-            ? {
-                addImageBlobHook: addImageBlobHook,
-              }
-            : undefined,
-        });
+        },
+        hooks: props.addImageBlobHook
+          ? {
+              addImageBlobHook: props.addImageBlobHook,
+            }
+          : undefined,
+      });
+    }
+    return () => {
+      if (editorRef.current && typeof editorRef.current.destroy === 'function') {
+        editorRef.current.destroy();
+        editorRef.current = null;
       }
-      return () => {
-        if (editorRef.current && typeof editorRef.current.destroy === 'function') {
-          editorRef.current.destroy();
-          editorRef.current = null;
-        }
-      };
-    }, [addImageBlobHook, height, onChange, previewStyle, value]);
+    };
+  }, [props.addImageBlobHook, props.height, props.onChange, props.previewStyle, props.value]);
 
-    useEffect(() => {
-      if (
-        editorRef.current &&
-        typeof editorRef.current.getHTML === 'function' &&
-        typeof editorRef.current.setHTML === 'function'
-      ) {
-        if (isFirst.current) {
-          isFirst.current = false;
-        } else if (value !== editorRef.current.getHTML()) {
-          editorRef.current.setHTML(value || '');
-        }
+  useEffect(() => {
+    if (
+      editorRef.current &&
+      typeof editorRef.current.getHTML === 'function' &&
+      typeof editorRef.current.setHTML === 'function'
+    ) {
+      if (isFirst.current) {
+        isFirst.current = false;
+      } else if (props.value !== editorRef.current.getHTML()) {
+        editorRef.current.setHTML(props.value || '');
       }
-    }, [value]);
+    }
+  }, [props.value]);
 
-    useEffect(() => {
-      if (editorRef.current) {
-        editorRef.current.setHeight(height);
-        editorRef.current.changePreviewStyle(previewStyle);
-      }
-    }, [height, previewStyle]);
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.setHeight(props.height);
+      editorRef.current.changePreviewStyle(props.previewStyle);
+    }
+  }, [props.height, props.previewStyle]);
 
-    return <div ref={divRef} />;
-  }
-);
+  return <div ref={divRef} />;
+});
 TuiEditor.displayName = 'TuiEditor';
 
 export default TuiEditor; 
