@@ -21,7 +21,7 @@ export default function AdminEssayTopicsPage() {
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode') || 'new'; // 'new' 또는 'edit'
   const topicId = searchParams.get('id');
-  const editorRef = useRef<Editor | null>(null);
+  const editorRef = useRef<any>(null);
 
   const fetchCurrentTopic = useCallback(async () => {
     setLoading(true);
