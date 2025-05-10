@@ -11,7 +11,8 @@ interface TuiEditorProps {
 }
 
 const TuiEditor = forwardRef((props: TuiEditorProps, ref) => {
-  const editorRef = useRef<any>(null);
+  const { addImageBlobHook, height, onChange, previewStyle, value } = props;
+  const editorRef = useRef<typeof Editor | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const isFirst = useRef(true);
 
@@ -23,21 +24,21 @@ const TuiEditor = forwardRef((props: TuiEditorProps, ref) => {
     if (divRef.current && !editorRef.current) {
       editorRef.current = new Editor({
         el: divRef.current,
-        height: props.height,
+        height,
         initialEditType: 'wysiwyg',
-        previewStyle: props.previewStyle,
-        initialValue: props.value,
+        previewStyle,
+        initialValue: value,
         hideModeSwitch: true,
         events: {
           change: () => {
-            if (props.onChange && editorRef.current && typeof editorRef.current.getHTML === 'function') {
-              props.onChange(editorRef.current.getHTML());
+            if (onChange && editorRef.current && typeof editorRef.current.getHTML === 'function') {
+              onChange(editorRef.current.getHTML());
             }
           },
         },
-        hooks: props.addImageBlobHook
+        hooks: addImageBlobHook
           ? {
-              addImageBlobHook: props.addImageBlobHook,
+              addImageBlobHook,
             }
           : undefined,
       });
@@ -48,7 +49,7 @@ const TuiEditor = forwardRef((props: TuiEditorProps, ref) => {
         editorRef.current = null;
       }
     };
-  }, [props.addImageBlobHook, props.height, props.onChange, props.previewStyle, props.value]);
+  }, [addImageBlobHook, height, onChange, previewStyle, value]);
 
   useEffect(() => {
     if (
@@ -58,18 +59,18 @@ const TuiEditor = forwardRef((props: TuiEditorProps, ref) => {
     ) {
       if (isFirst.current) {
         isFirst.current = false;
-      } else if (props.value !== editorRef.current.getHTML()) {
-        editorRef.current.setHTML(props.value || '');
+      } else if (value !== editorRef.current.getHTML()) {
+        editorRef.current.setHTML(value || '');
       }
     }
-  }, [props.value]);
+  }, [value]);
 
   useEffect(() => {
     if (editorRef.current) {
-      editorRef.current.setHeight(props.height);
-      editorRef.current.changePreviewStyle(props.previewStyle);
+      editorRef.current.setHeight(height);
+      editorRef.current.changePreviewStyle(previewStyle);
     }
-  }, [props.height, props.previewStyle]);
+  }, [height, previewStyle]);
 
   return <div ref={divRef} />;
 });
