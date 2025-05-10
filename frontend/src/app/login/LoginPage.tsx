@@ -33,7 +33,7 @@ export default function LoginPage() {
       localStorage.setItem('user_id', data.user_id);
       localStorage.setItem('role', data.role);
       router.push(data.role === 'admin' ? '/admin' : '/user');
-    } catch (err) {
+    } catch {
       setError('아이디 또는 비밀번호가 올바르지 않습니다.');
     } finally {
       setLoading(false);
