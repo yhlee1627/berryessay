@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import type Editor from '@toast-ui/editor';
 import { getAdminEssayTopic, setAdminEssayTopic, EssayTopic, logout } from '@/lib/api';
 import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
@@ -20,7 +21,7 @@ export default function AdminEssayTopicsPage() {
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode') || 'new'; // 'new' 또는 'edit'
   const topicId = searchParams.get('id');
-  const editorRef = useRef<unknown>(null);
+  const editorRef = useRef<Editor | null>(null);
 
   const fetchCurrentTopic = useCallback(async () => {
     setLoading(true);
@@ -51,9 +52,8 @@ export default function AdminEssayTopicsPage() {
 
   // 읽을거리(readingMaterial)가 바뀔 때마다 에디터에 반영
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    if (editorRef.current && (editorRef.current as any).getInstance) {
-      (editorRef.current as any).getInstance().setHTML(readingMaterial || '');
+    if (editorRef.current) {
+      editorRef.current.getInstance().setHTML(readingMaterial || '');
     }
   }, [readingMaterial]);
 
