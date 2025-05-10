@@ -4,6 +4,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 
 interface TuiEditorProps {
   value?: string;
+  initialValue?: string;
   height?: string;
   previewStyle?: 'tab' | 'vertical';
   onChange?: (value: string) => void;
@@ -11,7 +12,7 @@ interface TuiEditorProps {
 }
 
 const TuiEditor = forwardRef((props: TuiEditorProps, ref) => {
-  const { addImageBlobHook, height, onChange, previewStyle, value } = props;
+  const { addImageBlobHook, height, onChange, previewStyle, value, initialValue } = props;
   const editorRef = useRef<typeof Editor | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const isFirst = useRef(true);
@@ -27,7 +28,7 @@ const TuiEditor = forwardRef((props: TuiEditorProps, ref) => {
         height,
         initialEditType: 'wysiwyg',
         previewStyle,
-        initialValue: value,
+        initialValue: initialValue || value || '',
         hideModeSwitch: true,
         events: {
           change: () => {
@@ -49,7 +50,7 @@ const TuiEditor = forwardRef((props: TuiEditorProps, ref) => {
         editorRef.current = null;
       }
     };
-  }, [addImageBlobHook, height, onChange, previewStyle, value]);
+  }, [addImageBlobHook, height, onChange, previewStyle, value, initialValue]);
 
   useEffect(() => {
     if (
