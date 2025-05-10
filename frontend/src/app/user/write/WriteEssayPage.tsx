@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getAdminEssayTopic, createEssay, EssayTopic } from '@/lib/api';
+import dynamic from 'next/dynamic';
+
+const TuiEditor = dynamic(() => import('@/components/TuiEditor'), { ssr: false });
 
 export default function WriteEssayPage() {
   const [topic, setTopic] = useState<EssayTopic | null>(null);
@@ -135,14 +138,11 @@ export default function WriteEssayPage() {
             <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
               내용
             </label>
-            <textarea
-              id="content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a78bfa]"
-              rows={10}
-              placeholder="에세이 내용을 입력하세요"
-              required
+            <TuiEditor
+              initialValue={content}
+              onChange={setContent}
+              height="400px"
+              previewStyle="vertical"
             />
             <div className="mt-2 text-sm text-gray-500 text-right">
               {content.length}자
