@@ -10,15 +10,13 @@ interface TuiEditorProps {
   addImageBlobHook?: (blob: Blob, callback: (url: string, alt: string, attr?: Record<string, any>) => void) => void;
 }
 
-const TuiEditor = forwardRef<any, TuiEditorProps>(
+const TuiEditor = forwardRef<Editor | null, TuiEditorProps>(
   ({ value = '', height = '500px', previewStyle = 'vertical', onChange, addImageBlobHook }, ref) => {
     const editorRef = useRef<Editor | null>(null);
     const divRef = useRef<HTMLDivElement>(null);
     const isFirst = useRef(true);
 
-    useImperativeHandle(ref, () => ({
-      getInstance: () => editorRef.current,
-    }));
+    useImperativeHandle(ref, () => editorRef.current);
 
     useEffect(() => {
       if (divRef.current && !editorRef.current) {
@@ -49,7 +47,7 @@ const TuiEditor = forwardRef<any, TuiEditorProps>(
           editorRef.current = null;
         }
       };
-    }, []);
+    }, [addImageBlobHook, height, onChange, previewStyle, value]);
 
     useEffect(() => {
       if (
@@ -75,5 +73,6 @@ const TuiEditor = forwardRef<any, TuiEditorProps>(
     return <div ref={divRef} />;
   }
 );
+TuiEditor.displayName = 'TuiEditor';
 
 export default TuiEditor; 

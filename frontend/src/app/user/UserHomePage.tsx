@@ -5,11 +5,10 @@ import { useRouter } from 'next/navigation';
 import { getEssays, Essay, User, getUsers } from '@/lib/api';
 import { Cog6ToothIcon, ArrowRightOnRectangleIcon, PlusIcon } from '@heroicons/react/24/outline';
 import UserSettingsModal from './components/UserSettingsModal';
+import Image from 'next/image';
 
 export default function UserHomePage() {
   const [essays, setEssays] = useState<Essay[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
@@ -17,7 +16,6 @@ export default function UserHomePage() {
   useEffect(() => {
     async function fetchEssaysAndUser() {
       try {
-        setLoading(true);
         const userId = localStorage.getItem('user_id');
         if (!userId) {
           router.push('/login');
@@ -31,9 +29,6 @@ export default function UserHomePage() {
         setUser(me || null);
       } catch (err) {
         console.error('에세이 목록을 불러오는데 실패했습니다:', err);
-        setError('에세이 목록을 불러오는데 실패했습니다.');
-      } finally {
-        setLoading(false);
       }
     }
     fetchEssaysAndUser();
@@ -96,18 +91,13 @@ export default function UserHomePage() {
       </button>
       {/* 인사말 영역 */}
       <div className="flex items-center justify-center mt-4 mb-8">
-        <img src="/blueberry.png" alt="블루베리" className="w-16 h-16 mr-4 drop-shadow" />
+        <Image src="/blueberry.png" alt="블루베리" className="w-16 h-16 mr-4 drop-shadow" width={64} height={64} />
         <div className="bg-white rounded-xl px-6 py-4 shadow text-lg font-semibold text-[#7c3aed] border border-[#a78bfa]">
           {(user?.name || '베리베리') + '님, 환영합니다!'}
         </div>
       </div>
       {/* 에세이 카드 리스트 */}
       <main className="flex flex-col items-center gap-8 px-2 pb-16">
-        {error && (
-          <div className="w-full max-w-md p-4 bg-red-50 border border-red-200 rounded-lg text-red-600 text-center">
-            {error}
-          </div>
-        )}
         {essays.length > 0 ? (
           <div className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
             {essays.map((essay) => (

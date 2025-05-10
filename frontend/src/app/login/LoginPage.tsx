@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -43,7 +44,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[#f4f3fb]">
       <div className="w-full max-w-sm mx-auto flex flex-col items-center bg-white rounded-2xl p-10 shadow">
-        <img src="/blueberry.png" alt="BerryEssay" className="w-20 h-20 mb-2" />
+        <Image src="/blueberry.png" alt="BerryEssay" className="w-20 h-20 mb-2" width={80} height={80} />
         <h1 className="text-2xl font-bold text-[#7c3aed] mb-1">BerryEssay</h1>
         <p className="text-gray-500 text-sm mb-6">글쓰기로 성장하는 우리</p>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5">

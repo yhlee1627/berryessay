@@ -85,7 +85,7 @@ export default function UserSettingsModal({ user, onClose, onUpdate }: Props) {
                 type="text"
                 id="name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a78bfa]"
                 required
                 placeholder="베리베리"
@@ -125,7 +125,7 @@ export default function UserSettingsModal({ user, onClose, onUpdate }: Props) {
                 type="password"
                 id="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a78bfa]"
                 required
               />
@@ -138,7 +138,7 @@ export default function UserSettingsModal({ user, onClose, onUpdate }: Props) {
                 type="password"
                 id="confirmPassword"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a78bfa]"
                 required
               />
