@@ -75,12 +75,11 @@ export default function AdminEssayTopicsPage() {
       const ok = await setAdminEssayTopic(topic, readingMaterial, mode === 'edit' ? topicId || undefined : undefined);
       if (!ok) throw new Error();
       setSuccess(true);
-      // 저장 후 5초 뒤에 성공 메시지 제거
       setTimeout(() => setSuccess(false), 5000);
       if (mode === 'edit') {
         await fetchCurrentTopic();
       }
-    } catch (err) {
+    } catch {
       setError('저장에 실패했습니다.');
     } finally {
       setLoading(false);
@@ -93,7 +92,7 @@ export default function AdminEssayTopicsPage() {
     callback: (url: string, alt: string, attr?: Record<string, any>) => void
   ) => {
     const fileName = `${Date.now()}_${(blob as File).name}`;
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from('image')
       .upload(fileName, blob);
 

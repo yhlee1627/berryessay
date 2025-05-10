@@ -7,7 +7,7 @@ interface TuiEditorProps {
   height?: string;
   previewStyle?: 'tab' | 'vertical';
   onChange?: (value: string) => void;
-  addImageBlobHook?: (blob: Blob, callback: (url: string, alt: string, attr?: Record<string, any>) => void) => void;
+  addImageBlobHook?: (blob: Blob, callback: (url: string, alt: string, attr?: Record<string, unknown>) => void) => void;
 }
 
 const TuiEditor = forwardRef<Editor | null, TuiEditorProps>(

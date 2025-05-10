@@ -28,8 +28,8 @@ export default function UserSettingsModal({ user, onClose, onUpdate }: Props) {
       await updateUser(user.id, { name });
       onUpdate(name);
       onClose();
-    } catch (err: any) {
-      setNameError(err.message || '이름 변경에 실패했습니다.');
+    } catch {
+      setNameError('이름 변경에 실패했습니다.');
     } finally {
       setNameLoading(false);
     }
@@ -48,8 +48,8 @@ export default function UserSettingsModal({ user, onClose, onUpdate }: Props) {
       await updateUser(user.id, { password });
       onUpdate(user.username);
       onClose();
-    } catch (err: any) {
-      setPwError(err.message || '비밀번호 변경에 실패했습니다.');
+    } catch {
+      setPwError('비밀번호 변경에 실패했습니다.');
     } finally {
       setPwLoading(false);
     }

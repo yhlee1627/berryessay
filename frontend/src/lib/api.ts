@@ -266,7 +266,7 @@ export async function getUsers(): Promise<User[]> {
   const res = await fetch(`${API_BASE_URL}/api/auth/users`, { credentials: 'include' });
   if (!res.ok) throw new Error('회원 목록을 불러오지 못했습니다');
   const users = await res.json();
-  return users.map((u: any) => ({ ...u, name: u.name || '베리베리' }));
+  return users.map((u: Record<string, unknown>) => ({ ...u, name: u.name || '베리베리' }));
 }
 
 export async function updateUser(userId: string, data: Partial<User>): Promise<User> {

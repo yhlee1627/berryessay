@@ -2,9 +2,16 @@
 import { useEffect, useState } from "react";
 import { Essay, getCorrectionSessions } from "@/lib/api";
 
+interface Correction {
+  category: string;
+  original_text: string;
+  suggested_text: string;
+  explanation: string;
+}
+
 interface CorrectionSession {
   session_number: number;
-  corrections: any[];
+  corrections: Correction[];
   overall_feedback: string;
 }
 

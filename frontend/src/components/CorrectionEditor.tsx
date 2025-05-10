@@ -2,24 +2,10 @@
 
 import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 
-interface Correction {
-  category: string;
-  original_text: string;
-  suggested_text: string;
-  explanation: string;
-}
-
 interface CorrectionEditorProps {
   content: string;
   onSave?: (newContent: string) => void;
   cardless?: boolean;
-}
-
-function normalizeText(text: string): string {
-  return text
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase();
 }
 
 const CorrectionEditor = forwardRef(function CorrectionEditor({ content, onSave, cardless }: CorrectionEditorProps, ref) {
@@ -38,12 +24,6 @@ const CorrectionEditor = forwardRef(function CorrectionEditor({ content, onSave,
       textarea.style.height = textarea.scrollHeight + 'px';
     }
   }, [editorContent]);
-
-  const handleSave = () => {
-    if (onSave) {
-      onSave(editorContent);
-    }
-  };
 
   return (
     cardless ? (

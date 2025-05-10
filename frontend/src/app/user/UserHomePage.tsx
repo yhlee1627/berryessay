@@ -45,7 +45,7 @@ export default function UserHomePage() {
     router.push('/login');
   };
 
-  const handleSettingsUpdate = async (newName?: string) => {
+  const handleSettingsUpdate = async () => {
     // 이름 변경 후 서버에서 최신 user 정보 받아와 상태에 반영
     const userId = localStorage.getItem('user_id');
     if (userId) {
