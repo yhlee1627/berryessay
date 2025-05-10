@@ -3,9 +3,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { getAdminEssayTopic, setAdminEssayTopic, EssayTopic, logout } from '@/lib/api';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Editor } from '@toast-ui/react-editor';
+import dynamic from 'next/dynamic';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { supabase } from '@/lib/supabase';
+
+const TuiEditor = dynamic(() => import('@/components/TuiEditor'), { ssr: false });
 
 export default function AdminEssayTopicsPage() {
   const [topic, setTopic] = useState('');
@@ -18,7 +20,7 @@ export default function AdminEssayTopicsPage() {
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode') || 'new'; // 'new' 또는 'edit'
   const topicId = searchParams.get('id');
-  const editorRef = useRef<Editor>(null);
+  const editorRef = useRef<any>(null);
 
   useEffect(() => {
     if (mode === 'edit') {
@@ -31,7 +33,7 @@ export default function AdminEssayTopicsPage() {
 
   // 읽을거리(readingMaterial)가 바뀔 때마다 에디터에 반영
   useEffect(() => {
-    if (editorRef.current) {
+    if (editorRef.current && editorRef.current.getInstance()) {
       editorRef.current.getInstance().setHTML(readingMaterial || '');
     }
   }, [readingMaterial]);
@@ -144,21 +146,13 @@ export default function AdminEssayTopicsPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">읽을거리</label>
-            <Editor
+            <TuiEditor
               ref={editorRef}
-              initialValue={readingMaterial}
+              value={readingMaterial}
               previewStyle="vertical"
               height="400px"
-              initialEditType="wysiwyg"
-              hideModeSwitch={true}
-              useCommandShortcut={true}
-              onChange={() => {
-                const html = editorRef.current?.getInstance().getHTML();
-                setReadingMaterial(html);
-              }}
-              hooks={{
-                addImageBlobHook: handleImageUpload,
-              }}
+              onChange={setReadingMaterial}
+              addImageBlobHook={handleImageUpload}
             />
             <div className="text-xs text-gray-400 mt-1">이미지, 표, 코드 등 다양한 편집이 가능합니다.</div>
           </div>

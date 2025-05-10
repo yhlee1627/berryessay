@@ -83,7 +83,31 @@ export default function AdminEssayListPage() {
 
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', padding: 32 }}>
-      <h2 style={{ fontSize: 24, fontWeight: 700, color: '#222', marginBottom: 32 }}>에세이 주제 전체 목록</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+        <h2 style={{ fontSize: 24, fontWeight: 700, color: '#222', margin: 0 }}>에세이 주제 전체 목록</h2>
+        <button
+          onClick={() => router.push('/admin/topics?mode=new')}
+          style={{
+            padding: '8px 20px',
+            background: '#a78bfa',
+            color: 'white',
+            border: 'none',
+            borderRadius: 8,
+            fontWeight: 500,
+            cursor: 'pointer',
+            boxShadow: '0 1px 4px rgba(167,139,250,0.10)',
+            transition: 'background 0.2s',
+            fontSize: 16,
+            height: 40,
+            display: 'flex',
+            alignItems: 'center'
+          }}
+          onMouseOver={e => (e.currentTarget.style.background = '#7c3aed')}
+          onMouseOut={e => (e.currentTarget.style.background = '#a78bfa')}
+        >
+          새 주제 만들기
+        </button>
+      </div>
       {error && <div style={{ color: 'red', marginBottom: 16 }}>{error}</div>}
       {loading ? (
         <div>로딩 중...</div>
