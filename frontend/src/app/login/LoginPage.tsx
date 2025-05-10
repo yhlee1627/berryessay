@@ -17,7 +17,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/auth/login', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,17 +25,16 @@ export default function LoginPage() {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.message || '로그인에 실패했습니다.');
+        throw new Error('로그인에 실패했습니다.');
       }
 
+      const data = await response.json();
       localStorage.setItem('user_id', data.user_id);
       localStorage.setItem('role', data.role);
       router.push(data.role === 'admin' ? '/admin' : '/user');
     } catch (err) {
-      setError(err instanceof Error ? err.message : '로그인에 실패했습니다.');
+      setError('아이디 또는 비밀번호가 올바르지 않습니다.');
     } finally {
       setLoading(false);
     }

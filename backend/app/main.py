@@ -7,7 +7,11 @@ app = FastAPI()
 # CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # 프론트엔드 주소
+    allow_origins=[
+        "http://localhost:3000",  # 로컬 개발 환경
+        "https://berryessay-pd0qm59y4-josephs-projects-c828ff47.vercel.app",  # Vercel 배포 환경
+        "https://berryessay.vercel.app",  # 프로덕션 도메인
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
