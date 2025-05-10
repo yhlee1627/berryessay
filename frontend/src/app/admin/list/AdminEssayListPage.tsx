@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAdminEssayTopics, EssayTopic, deleteAdminEssayTopic, logout, setAdminEssayTopicActive } from '@/lib/api';
+import { getAdminEssayTopics, EssayTopic, deleteAdminEssayTopic } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
@@ -26,7 +26,7 @@ export default function AdminEssayListPage() {
     try {
       const data = await getAdminEssayTopics();
       setTopics(data);
-    } catch (err) {
+    } catch {
       setError('주제 목록을 불러오지 못했습니다.');
     } finally {
       setLoading(false);
@@ -58,19 +58,10 @@ export default function AdminEssayListPage() {
       } else {
         alert('주제 삭제에 실패했습니다.');
       }
-    } catch (err) {
+    } catch {
       alert('주제 삭제 중 오류가 발생했습니다.');
     } finally {
       setDeleteLoading(null);
-    }
-  };
-
-  const handleToggleActive = async (topicId: string, isActive: boolean) => {
-    try {
-      await setAdminEssayTopicActive(topicId, !isActive);
-      await fetchTopics();
-    } catch (err) {
-      alert('활성화 상태 변경에 실패했습니다.');
     }
   };
 
