@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { supabase } from '@/lib/supabase';
-import type Editor from '@toast-ui/editor';
 
 const TuiEditor = dynamic(() => import('@/components/TuiEditor'), { ssr: false });
 
@@ -21,7 +20,7 @@ export default function AdminEssayTopicsPage() {
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode') || 'new'; // 'new' 또는 'edit'
   const topicId = searchParams.get('id');
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<unknown>(null);
 
   const fetchCurrentTopic = useCallback(async () => {
     setLoading(true);
@@ -52,8 +51,9 @@ export default function AdminEssayTopicsPage() {
 
   // 읽을거리(readingMaterial)가 바뀔 때마다 에디터에 반영
   useEffect(() => {
-    if (editorRef.current && editorRef.current.getInstance()) {
-      editorRef.current.getInstance().setHTML(readingMaterial || '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (editorRef.current && (editorRef.current as any).getInstance) {
+      (editorRef.current as any).getInstance().setHTML(readingMaterial || '');
     }
   }, [readingMaterial]);
 
