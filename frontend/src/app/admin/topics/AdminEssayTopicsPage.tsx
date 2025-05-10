@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { getAdminEssayTopic, setAdminEssayTopic, EssayTopic, logout } from '@/lib/api';
 import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { supabase } from '@/lib/supabase';
+import type Editor from '@toast-ui/editor';
 
 const TuiEditor = dynamic(() => import('@/components/TuiEditor'), { ssr: false });
 
@@ -20,16 +21,34 @@ export default function AdminEssayTopicsPage() {
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode') || 'new'; // 'new' 또는 'edit'
   const topicId = searchParams.get('id');
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<Editor | null>(null);
+
+  const fetchCurrentTopic = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getAdminEssayTopic(topicId || undefined);
+      setCurrent(data);
+      if (data) {
+        setTopic(data.topic || '');
+        setReadingMaterial(data.reading_material || '');
+      } else {
+        setError('주제를 찾을 수 없습니다.');
+      }
+    } catch {
+      setError('주제를 불러오지 못했습니다.');
+    } finally {
+      setLoading(false);
+    }
+  }, [topicId]);
 
   useEffect(() => {
     if (mode === 'edit') {
       fetchCurrentTopic();
     } else {
-      // 새 주제 작성 모드면 폼 초기화
       resetForm();
     }
-  }, [mode, topicId]);
+  }, [mode, topicId, fetchCurrentTopic]);
 
   // 읽을거리(readingMaterial)가 바뀔 때마다 에디터에 반영
   useEffect(() => {
@@ -42,26 +61,6 @@ export default function AdminEssayTopicsPage() {
     setTopic('');
     setReadingMaterial('');
     setCurrent(null);
-  };
-
-  const fetchCurrentTopic = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      // ID가 제공된 경우 해당 주제를, 아니면 활성화된 주제를 가져옴
-      const data = await getAdminEssayTopic(topicId || undefined);
-      setCurrent(data);
-      if (data) {
-        setTopic(data.topic || '');
-        setReadingMaterial(data.reading_material || '');
-      } else {
-        setError('주제를 찾을 수 없습니다.');
-      }
-    } catch (err) {
-      setError('주제를 불러오지 못했습니다.');
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleSave = async () => {

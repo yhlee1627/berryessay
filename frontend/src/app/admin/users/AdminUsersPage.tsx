@@ -30,8 +30,8 @@ export default function AdminUsersPage() {
     try {
       const data = await getUsers();
       setUsers(data);
-    } catch (e: any) {
-      setError(e.message);
+    } catch {
+      setError('An error occurred while fetching users.');
     } finally {
       setLoading(false);
     }
@@ -48,8 +48,8 @@ export default function AdminUsersPage() {
       await updateUser(userId, editUser);
       setEditId(null);
       fetchUsers();
-    } catch (e: any) {
-      setError(e.message);
+    } catch {
+      setError('An error occurred while saving the user.');
     } finally {
       setLoading(false);
     }
@@ -61,8 +61,8 @@ export default function AdminUsersPage() {
     try {
       await deleteUser(userId);
       fetchUsers();
-    } catch (e: any) {
-      setError(e.message);
+    } catch {
+      setError('An error occurred while deleting the user.');
     } finally {
       setLoading(false);
     }
@@ -80,8 +80,8 @@ export default function AdminUsersPage() {
       setShowAdd(false);
       setAddUser({ username: '', password: '', role: 'user' });
       fetchUsers();
-    } catch (e: any) {
-      setAddError(e.message);
+    } catch {
+      setAddError('An error occurred while adding the user.');
     } finally {
       setLoading(false);
     }

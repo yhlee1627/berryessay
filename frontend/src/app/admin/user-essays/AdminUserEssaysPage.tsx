@@ -21,8 +21,8 @@ export default function AdminUserEssaysPage({ onSelectUser }: Props) {
     try {
       const data = await getUsers();
       setUsers(data);
-    } catch (e: any) {
-      setError(e.message);
+    } catch {
+      setError("An error occurred while fetching users.");
     } finally {
       setLoading(false);
     }

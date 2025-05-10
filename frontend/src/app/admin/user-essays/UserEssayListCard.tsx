@@ -24,8 +24,8 @@ export default function UserEssayListCard({ user, onBack, onSelectEssay }: Props
     try {
       const data = await getEssays(user.id);
       setEssays(data);
-    } catch (e: any) {
-      setError(e.message);
+    } catch {
+      setError("An error occurred while fetching essays.");
     } finally {
       setLoading(false);
     }

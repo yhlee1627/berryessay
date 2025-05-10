@@ -30,8 +30,8 @@ export default function UserEssayDetailCard({ essay, onBack }: Props) {
     try {
       const data = await getCorrectionSessions(essay.id);
       setSessions(data);
-    } catch (e: any) {
-      setError(e.message);
+    } catch {
+      setError("An error occurred while fetching sessions.");
     } finally {
       setLoading(false);
     }

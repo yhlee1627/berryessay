@@ -4,7 +4,7 @@ const API_BASE_URL = 'http://localhost:8000'; // FastAPI 서버 주소
 
 export async function GET(request: NextRequest) {
   const id = request.nextUrl.searchParams.get('id');
-  let url = `${API_BASE_URL}/essay-topic/`;
+  const url = `${API_BASE_URL}/essay-topic/`;
   
   if (id) {
     // 특정 ID 주제를 가져옴 - 백엔드에 해당 기능이 없으므로 전체 목록에서 필터링
