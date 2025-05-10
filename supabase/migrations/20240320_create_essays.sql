@@ -1,0 +1,2 @@
+-- UNIQUE(user_id, daily_essay_date) 제약 조건 제거
+-- CREATE UNIQUE INDEX unique_daily_essay ON essays(user_id, daily_essay_date); 

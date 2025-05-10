@@ -1,0 +1,44 @@
+# Node.js
+node_modules/
+.next/
+.env
+.env.*
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Supabase
+.supabase/
+
+# 기타
+*.sqlite3
+coverage/
+dist/
+build/
+
+# OS별
+Thumbs.db
+.idea/
+
+# Railway/Vercel 환경변수
+.env.local
+.env.production
+.env.development 
