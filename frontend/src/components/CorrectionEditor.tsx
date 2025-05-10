@@ -8,7 +8,7 @@ interface CorrectionEditorProps {
   cardless?: boolean;
 }
 
-const CorrectionEditor = forwardRef(function CorrectionEditor({ content, onSave, cardless }: CorrectionEditorProps, ref) {
+const CorrectionEditor = forwardRef(function CorrectionEditor({ content, onSave: _onSave, cardless }: CorrectionEditorProps, ref) {
   const [editorContent, setEditorContent] = useState(content);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 

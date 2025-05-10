@@ -89,7 +89,7 @@ export default function AdminEssayTopicsPage() {
   // Toast UI Editor 이미지 업로드 핸들러
   const handleImageUpload = async (
     blob: Blob,
-    callback: (url: string, alt: string, attr?: Record<string, any>) => void
+    callback: (url: string, alt: string, attr?: Record<string, unknown>) => void
   ) => {
     const fileName = `${Date.now()}_${(blob as File).name}`;
     const { error } = await supabase.storage
