@@ -78,5 +78,16 @@ async def get_current_essay_topic():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@admin_router.get("", response_model=List[EssayTopic])
+async def get_admin_essay_topics(id: str = None):
+    try:
+        query = supabase.table("essay_topics").select("*")
+        if id:
+            query = query.eq("id", id)
+        result = query.execute()
+        return result.data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # 라우터 등록은 main.py에서 app.include_router(router), app.include_router(admin_router)로 해야 함
 admin_router = admin_router 
