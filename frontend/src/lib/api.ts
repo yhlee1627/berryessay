@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 export interface Essay {
   id: string;
@@ -168,7 +168,7 @@ export async function getCurrentEssayTopic(): Promise<EssayTopic> {
 
 // 어드민: 현재 활성화된 에세이 주제/읽을거리 조회
 export async function getAdminEssayTopic(id?: string): Promise<EssayTopic | null> {
-  const endpoint = id ? `/api/admin/essay-topic?id=${id}` : '/api/admin/essay-topic';
+  const endpoint = id ? `${API_BASE_URL}/api/admin/essay-topic?id=${id}` : `${API_BASE_URL}/api/admin/essay-topic`;
   const response = await fetch(endpoint);
   if (!response.ok) return null;
   const data = await response.json();
@@ -210,14 +210,14 @@ export async function setAdminEssayTopic(
 
 // 어드민: 에세이 주제 전체 목록 조회
 export async function getAdminEssayTopics(): Promise<EssayTopic[]> {
-  const response = await fetch('/api/admin/essay-topic');
+  const response = await fetch(`${API_BASE_URL}/api/admin/essay-topic`);
   if (!response.ok) return [];
   return response.json();
 }
 
 // 어드민: 에세이 주제 삭제
 export async function deleteAdminEssayTopic(id: string): Promise<boolean> {
-  const response = await fetch(`/api/admin/essay-topic?id=${id}`, {
+  const response = await fetch(`${API_BASE_URL}/api/admin/essay-topic?id=${id}`, {
     method: 'DELETE',
   });
   return response.ok;
@@ -235,7 +235,7 @@ export async function getActiveEssayTopics(): Promise<EssayTopic[]> {
 
 // 어드민: 에세이 주제 활성/비활성 토글
 export async function setAdminEssayTopicActive(topicId: string, isActive: boolean): Promise<boolean> {
-  const endpoint = '/api/admin/essay-topic';
+  const endpoint = `${API_BASE_URL}/api/admin/essay-topic`;
   const response = await fetch(endpoint, {
     method: 'PATCH',
     headers: {
