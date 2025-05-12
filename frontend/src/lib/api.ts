@@ -159,7 +159,7 @@ export async function createCorrectionSession(essayId: string): Promise<Correcti
 }
 
 export async function getCurrentEssayTopic(): Promise<EssayTopic> {
-  const response = await fetch(`${API_BASE_URL}/essay-topic/`);
+  const response = await fetch(`${API_BASE_URL}/essay-topic/current`);
   if (!response.ok) {
     throw new Error('에세이 주제를 불러오는데 실패했습니다.');
   }

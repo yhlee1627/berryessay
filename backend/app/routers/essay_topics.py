@@ -68,5 +68,15 @@ async def create_admin_essay_topic(topic: EssayTopicCreate):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/current", response_model=EssayTopic)
+async def get_current_essay_topic():
+    try:
+        result = supabase.table("essay_topics").select("*").eq("is_active", True).order("created_at", desc=True).limit(1).execute()
+        if not result.data:
+            raise HTTPException(status_code=404, detail="No active essay topic found")
+        return result.data[0]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # 라우터 등록은 main.py에서 app.include_router(router), app.include_router(admin_router)로 해야 함
 admin_router = admin_router 
