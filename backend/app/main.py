@@ -11,6 +11,8 @@ app.add_middleware(
         "http://localhost:3000",  # 로컬 개발 환경
         "https://berryessay-pd0qm59y4-josephs-projects-c828ff47.vercel.app",  # Vercel 배포 환경
         "https://berryessay.vercel.app",  # 프로덕션 도메인
+        "https://www.berryessay.com",  # 새로운 프로덕션 도메인
+        "https://berryessay.com",  # www 없는 도메인
     ],
     allow_credentials=True,
     allow_methods=["*"],
