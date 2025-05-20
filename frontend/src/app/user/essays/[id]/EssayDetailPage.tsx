@@ -19,6 +19,10 @@ export default function EssayDetailPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [topic, setTopic] = useState<EssayTopic | null>(null);
 
+  // 글자 수 제한 상수
+  const MIN_CHAR_COUNT = 200;
+  const MIN_CHAR_MESSAGE = `${MIN_CHAR_COUNT}자 이상 작성하여야 합니다`;
+
   useEffect(() => {
     const fetchEssay = async () => {
       try {
@@ -202,11 +206,30 @@ export default function EssayDetailPage() {
                   수정하기
                 </button>
                 <button
-                  onClick={handleCorrection}
-                  disabled={isCorrecting || sessions.length >= 3}
-                  className="px-4 py-2 text-sm text-white bg-[#a78bfa] rounded-md hover:bg-[#7c3aed] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#a78bfa] disabled:opacity-50"
+                  onClick={() => {
+                    if (!essay || essay.content.length < MIN_CHAR_COUNT) {
+                      alert(MIN_CHAR_MESSAGE);
+                      return;
+                    }
+                    handleCorrection();
+                  }}
+                  disabled={isCorrecting || sessions.length >= 3 || (essay && essay.content.length < MIN_CHAR_COUNT)}
+                  className={`group relative px-4 py-2 text-sm text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#a78bfa] disabled:opacity-50 ${
+                    essay && essay.content.length >= MIN_CHAR_COUNT
+                      ? 'bg-[#a78bfa] hover:bg-[#8b5cf6]'
+                      : 'bg-gray-400 cursor-not-allowed'
+                  }`}
                 >
                   {isCorrecting ? 'AI 첨삭 중...' : `AI 첨삭하기 (${sessions.length}/3)`}
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                    {!essay || essay.content.length < MIN_CHAR_COUNT
+                      ? MIN_CHAR_MESSAGE
+                      : isCorrecting
+                      ? '첨삭이 진행 중입니다'
+                      : sessions.length >= 3
+                      ? '최대 첨삭 횟수(3회)를 초과했습니다'
+                      : 'AI 첨삭하기'}
+                  </div>
                 </button>
                 <button
                   onClick={() => router.push('/user')}

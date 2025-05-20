@@ -14,6 +14,10 @@ export default function WriteEssayPage() {
   const searchParams = useSearchParams();
   const topicId = searchParams.get('topic_id');
 
+  // 글자 수 제한 상수
+  const MIN_CHAR_COUNT = 200;
+  const MIN_CHAR_MESSAGE = `${MIN_CHAR_COUNT}자 이상 작성하여야 합니다`;
+
   useEffect(() => {
     async function fetchTopic() {
       try {
@@ -145,6 +149,9 @@ export default function WriteEssayPage() {
               placeholder="에세이 내용을 입력하세요"
               required
             />
+            <div className="mt-2 text-sm text-gray-500">
+              글자수 {content.length}/{MIN_CHAR_COUNT}자
+            </div>
           </div>
           
           <div className="flex justify-end">
