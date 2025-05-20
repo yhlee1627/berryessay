@@ -3,9 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getAdminEssayTopic, createEssay, EssayTopic } from '@/lib/api';
-import dynamic from 'next/dynamic';
-
-const TuiEditor = dynamic(() => import('@/components/TuiEditor'), { ssr: false });
 
 export default function WriteEssayPage() {
   const [topic, setTopic] = useState<EssayTopic | null>(null);
@@ -86,9 +83,9 @@ export default function WriteEssayPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-[#f5f8fa] to-[#e9edfb]">
-      <div className="max-w-4xl mx-auto px-4 pt-4">
-        <div className="flex justify-between items-center mb-8 mt-0">
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900">에세이 작성</h1>
           <button
             onClick={() => router.push('/user')}
@@ -120,8 +117,8 @@ export default function WriteEssayPage() {
         )}
 
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow-sm">
-          <div className="mb-6">
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="mb-4">
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
               제목
             </label>
             <input
@@ -129,29 +126,31 @@ export default function WriteEssayPage() {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a78bfa]"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="에세이 제목을 입력하세요"
               required
             />
           </div>
+          
           <div className="mb-6">
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
               내용
             </label>
-            <TuiEditor
-              initialValue={content}
-              onChange={setContent}
-              height="400px"
-              previewStyle="vertical"
+            <textarea
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows={15}
+              placeholder="에세이 내용을 입력하세요"
+              required
             />
-            <div className="mt-2 text-sm text-gray-500 text-right">
-              {content.length}자
-            </div>
           </div>
+          
           <div className="flex justify-end">
             <button
               type="submit"
-              className="px-4 py-2 text-sm text-white bg-[#a78bfa] rounded-md hover:bg-[#7c3aed] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#a78bfa]"
+              className="px-5 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
             >
               저장하기
             </button>

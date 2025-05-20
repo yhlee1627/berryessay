@@ -40,7 +40,7 @@ async def delete_essay_topic(topic_id: str):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) 
 
 @admin_router.put("", response_model=EssayTopic)
 async def update_admin_essay_topic(topic: EssayTopicUpdate):

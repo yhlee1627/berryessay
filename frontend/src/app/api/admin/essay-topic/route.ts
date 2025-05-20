@@ -7,12 +7,12 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(request: NextRequest) {
   try {
-    const id = request.nextUrl.searchParams.get('id');
+  const id = request.nextUrl.searchParams.get('id');
     const url = `${API_BASE_URL}/essay-topic/`;
-    
-    if (id) {
-      // 특정 ID 주제를 가져옴 - 백엔드에 해당 기능이 없으므로 전체 목록에서 필터링
-      const res = await fetch(url);
+  
+  if (id) {
+    // 특정 ID 주제를 가져옴 - 백엔드에 해당 기능이 없으므로 전체 목록에서 필터링
+    const res = await fetch(url);
       
       if (!res.ok) {
         const error = await res.json();
@@ -22,11 +22,11 @@ export async function GET(request: NextRequest) {
         );
       }
       
-      const allTopics = await res.json();
+    const allTopics = await res.json();
       return NextResponse.json(allTopics, { status: 200 });
-    } else {
-      // 모든 주제 가져오기
-      const res = await fetch(url);
+  } else {
+    // 모든 주제 가져오기
+    const res = await fetch(url);
       
       if (!res.ok) {
         const error = await res.json();
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
         );
       }
       
-      const data = await res.json();
+    const data = await res.json();
       return NextResponse.json(data, { status: 200 });
     }
   } catch (error) {
@@ -50,12 +50,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const res = await fetch(`${API_BASE_URL}/essay-topic/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
+  const body = await req.json();
+  const res = await fetch(`${API_BASE_URL}/essay-topic/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
 
     if (!res.ok) {
       const error = await res.json();
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const data = await res.json();
+  const data = await res.json();
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     console.error('Error creating essay topic:', error);
@@ -78,15 +78,15 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const id = request.nextUrl.searchParams.get('id');
-    
-    if (!id) {
+  const id = request.nextUrl.searchParams.get('id');
+  
+  if (!id) {
       return NextResponse.json(
         { error: 'ID가 필요합니다' },
         { status: 400 }
       );
-    }
-    
+  }
+  
     const res = await fetch(`${API_BASE_URL}/essay-topic/${id}`, {
       method: 'DELETE'
     });
