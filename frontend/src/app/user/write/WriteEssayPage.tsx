@@ -16,7 +16,6 @@ export default function WriteEssayPage() {
 
   // 글자 수 제한 상수
   const MIN_CHAR_COUNT = 200;
-  const MIN_CHAR_MESSAGE = `${MIN_CHAR_COUNT}자 이상 작성하여야 합니다`;
 
   useEffect(() => {
     async function fetchTopic() {
